@@ -24,11 +24,11 @@ Attributes
 ==========
 The required attributes are
 
-* `node['drbd]['remote_host']` - Remote host to pair with.
-* `node['drbd]['disk']` - Disk partition to mirror.
-* `node['drbd]['mount']` - Mount point to mirror.
-* `node['drbd]['fs_type']` - Disk format for the mirrored disk, defaults to `ext3`.
-* `node['drbd]['master']` - Whether this node is master between the pair, defaults to `false`.
+* `node['drbd']['remote_host']` - Remote host to pair with.
+* `node['drbd']['disk']` - Disk partition to mirror.
+* `node['drbd']['mount']` - Mount point to mirror.
+* `node['drbd']['fs_type']` - Disk format for the mirrored disk, defaults to `ext3`.
+* `node['drbd']['master']` - Whether this node is master between the pair, defaults to `false`.
 
 Roles
 =====
