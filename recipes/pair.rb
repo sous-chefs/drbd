@@ -84,7 +84,7 @@ end
 #hack to get around the mount failing
 ruby_block "set drbd configured flag" do
   block do
-    node['drbd']['configured'] = true
+    node.set['drbd']['configured'] = true
   end
   subscribes :create, resources(:execute => "mkfs -t #{node['drbd']['fs_type']} #{node['drbd']['dev']}")
   action :nothing
