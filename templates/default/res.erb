@@ -4,10 +4,10 @@ resource <%= @resource %> {
   device    <%= node['drbd']['dev'] %>;
   disk      <%= node['drbd']['disk'] %>;
   meta-disk internal;
-  on <%= node.name.split('.')[0] %> {
-    address   <%= node.ipaddress %>:<%= node['drbd']['port'] %>;
+  on <%= node.name %> {
+    address   <%= node['drbd']['local_ip'] %>:<%= node['drbd']['port'] %>;
   }
-  on <%= node['drbd']['remote_host'].split('.')[0] %> {
-    address   <%= @remote_ip %>:<%= node['drbd']['port'] %>;
+  on <%= node['drbd']['remote_host'] %> {
+    address   <%= node['drbd']['remote_ip'] %>:<%= node['drbd']['port'] %>;
   }
 }

@@ -28,13 +28,11 @@ if node['drbd']['remote_host'].nil?
   Chef::Application.fatal! "You must have a ['drbd']['remote_host'] defined to use the drbd::pair recipe."
 end
 
-remote = search(:node, "name:#{node['drbd']['remote_host']}")[0]
-
 template "/etc/drbd.d/#{resource}.res" do
   source "res.erb"
   variables(
     :resource => resource,
-    :remote_ip => remote.ipaddress
+    :remote_ip => node['drbd']['remote_ip']
     )
   owner "root"
   group "root"
