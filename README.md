@@ -8,7 +8,7 @@ Requirements
 ============
 Platform
 --------
-Tested with Ubuntu 10.04 and 10.10. You must have the 'linux-server' package and 'linux-headers-server' kernel installed to properly support the drbd module.
+Tested with Ubuntu 10.04, 10.10 and CentOS 6.4. You must have the 'linux-server' package and 'linux-headers-server' kernel installed to properly support the drbd module. In CentOS it will subscribe to EL Repository to access necessary drbd rpm packages.
 
 Recipes
 =======
@@ -25,6 +25,8 @@ Attributes
 The required attributes are
 
 * `node['drbd]['remote_host']` - Remote host to pair with.
+* `node['drbd]['remote_ip']` - Remote host to pair with.
+* `node['drbd]['local_ip']` - Remote host to pair with.
 * `node['drbd]['disk']` - Disk partition to mirror.
 * `node['drbd]['mount']` - Mount point to mirror.
 * `node['drbd]['fs_type']` - Disk format for the mirrored disk, defaults to `ext3`.
