@@ -44,7 +44,7 @@ execute "drbdadm create-md #{resource}" do
   subscribes :run, "template[/etc/drbd.d/#{resource}.res]"
   notifies :restart, "service[drbd]", :immediately
   only_if do
-    cmd = Chef::ShellOut.new("drbd-overview")
+    cmd = Mixlib::ShellOut.new("drbd-overview")
     overview = cmd.run_command
     Chef::Log.info overview.stdout
     overview.stdout.include?("drbd not loaded")
