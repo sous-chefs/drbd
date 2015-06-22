@@ -47,15 +47,6 @@ when "rhel"
   end
 end
 
-# ruby_block "load drbd module" do
-#   block do
-#     cmd = Mixlib::ShellOut.new('modprobe drbd')
-#     cmd.run_command
-#     cmd.error!
-#   end
-#   not_if { ::File.exists?("/proc/drbd") }
-# end
-
 service "drbd" do
   supports(
     :restart => true,
