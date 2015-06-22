@@ -22,7 +22,7 @@ require 'chef/shell_out'
 
 include_recipe "drbd"
 
-resource = "pair"
+resource = node["drbd"]["resource_name"]
 
 if node['drbd']['remote_host'].nil?
   Chef::Application.fatal! "You must have a ['drbd']['remote_host'] defined to use the drbd::pair recipe."
@@ -40,11 +40,12 @@ template "/etc/drbd.d/#{resource}.res" do
 end
 
 #first pass only, initialize drbd
-execute "drbdadm create-md #{resource}" do
-  subscribes :run, "template[/etc/drbd.d/#{resource}.res]"
+execute ":create drbd volume" do
+  command "drbdadm --force create-md #{resource}"
+  subscribes :run, "template[/etc/drbd.d/#{resource}.res]", :immediately
   notifies :restart, "service[drbd]", :immediately
   only_if do
-    cmd = Chef::ShellOut.new("drbd-overview")
+    cmd = Mixlib::ShellOut.new("drbd-overview")
     overview = cmd.run_command
     Chef::Log.info overview.stdout
     overview.stdout.include?("drbd not loaded")
@@ -53,15 +54,17 @@ execute "drbdadm create-md #{resource}" do
 end
 
 #claim primary based off of node['drbd']['master']
-execute "drbdadm -- --overwrite-data-of-peer primary all" do
-  subscribes :run, "execute[drbdadm create-md #{resource}]"
+execute ":init drdb volume" do
+  command "drbdadm -- --overwrite-data-of-peer primary all"
+  subscribes :run, "execute[:create drbd volume]", :immediately
   only_if { node['drbd']['master'] && !node['drbd']['configured'] }
   action :nothing
 end
 
 #You may now create a filesystem on the device, use it as a raw block device
-execute "mkfs -t #{node['drbd']['fs_type']} #{node['drbd']['dev']}" do
-  subscribes :run, "execute[drbdadm -- --overwrite-data-of-peer primary all]"
+execute ":create filesystem" do
+  command "mkfs -t #{node['drbd']['fs_type']} #{node['drbd']['dev']}"
+  subscribes :run, "execute[:init drdb volume]", :immediately
   only_if { node['drbd']['master'] && !node['drbd']['configured'] }
   action :nothing
 end
@@ -75,6 +78,7 @@ end
 mount node['drbd']['mount'] do
   device node['drbd']['dev']
   fstype node['drbd']['fs_type']
+  options node['drbd']['mount_options']
   only_if { node['drbd']['master'] && node['drbd']['configured'] }
   action :mount
 end
