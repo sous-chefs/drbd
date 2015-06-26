@@ -47,6 +47,20 @@ when "rhel"
   end
 end
 
+template "/etc/drbd.conf" do
+  source "drbd_conf.erb"
+  owner "root"
+  group "root"
+  action :create
+end
+
+template "/etc/drbd.d/global_common.conf" do
+  source "global_conf.erb"
+  owner "root"
+  group "root"
+  action :create
+end
+
 service "drbd" do
   supports(
     :restart => true,

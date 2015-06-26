@@ -20,12 +20,19 @@
 # limitations under the License.
 
 # The DRBD packages and their versions
+default["drbd"]["packages"] = Hash.new
 case node["platform_family"]
 when "rhel"
-default["drbd"]["packages"] = {
-  "drbd83-utils" => "8.3.16-1.el6.elrepo",
-  "kmod-drbd83" => "8.3.16-1.el6.elrepo"
-  }
+  default["drbd"]["packages"]["drbd83-utils"] = "8.3.16-1.el6.elrepo"
+
+  case node['kernel']['release']
+  when "2.6.32-358.el6.x86_64"
+    default["drbd"]["packages"]["kmod-drbd83"] = "8.3.16-1.el6.elrepo"
+  when "2.6.32-504.el6.x86_64"
+    default["drbd"]["packages"]["kmod-drbd83"] = "8.3.16-3.el6.elrepo"
+  else
+    default["drbd"]["packages"]["kmod-drbd83"] = "8.3.16-1.el6.elrepo"
+  end
 end
 
 default['drbd']['remote_host'] = nil

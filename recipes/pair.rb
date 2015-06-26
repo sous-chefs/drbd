@@ -43,6 +43,9 @@ end
 execute ":create drbd volume" do
   command "drbdadm --force create-md #{resource}"
   subscribes :run, "template[/etc/drbd.d/#{resource}.res]", :immediately
+  notifies :create, "ruby_block[:load drbd module]", :immediately
+  notifies :run, "execute[:bring up the drbd volume]", :immediately
+  notifies :run, "execute[:init drdb volume]", :immediately
   notifies :restart, "service[drbd]", :immediately
   only_if do
     cmd = Mixlib::ShellOut.new("drbd-overview")
@@ -53,10 +56,25 @@ execute ":create drbd volume" do
   action :nothing
 end
 
+ruby_block ":load drbd module" do
+  block do
+    cmd = Mixlib::ShellOut.new("modprobe drbd")
+    cmd.run_command
+    cmd.error!
+  end
+  not_if { ::File.exists?("/proc/drbd") }
+  action :nothing
+end
+
+execute ':bring up the drbd volume' do
+  command "drbdadm up #{resource}"
+  only_if { node['drbd']['master'] && !node['drbd']['configured'] }
+  action :nothing
+end
+
 #claim primary based off of node['drbd']['master']
 execute ":init drdb volume" do
   command "drbdadm -- --overwrite-data-of-peer primary all"
-  subscribes :run, "execute[:create drbd volume]", :immediately
   only_if { node['drbd']['master'] && !node['drbd']['configured'] }
   action :nothing
 end
@@ -87,6 +105,7 @@ end
 ruby_block "set drbd configured flag" do
   block do
     node.set['drbd']['configured'] = true
+    node.save
   end
   subscribes :create, "execute[mkfs -t #{node['drbd']['fs_type']} #{node['drbd']['dev']}]"
   action :nothing
