@@ -1,5 +1,6 @@
-DRBD cookbook CHANGELOG
+drbd Cookbook CHANGELOG
 =======================
+This file is used to list changes made in each version of the drbd cookbook.
 
 v0.9.0 (2014-06-11)
 -------------------
