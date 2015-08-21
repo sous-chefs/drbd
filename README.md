@@ -1,5 +1,9 @@
-Description
-===========
+drbd Cookbook
+=============
+
+[![Build Status](https://travis-ci.org/opscode-cookbooks/drbd.svg?branch=master)](https://travis-ci.org/opscode-cookbooks/drbd)
+[![Cookbook Version](https://img.shields.io/cookbook/v/drbd.svg)](https://supermarket.chef.io/cookbooks/drbd)
+
 Installs and configures the Distributed Replicated Block Device (DRBD) service for mirroring block devices between a pair of hosts. Right now it simply works in pairs, multiple hosts could be supported with a few small changes.
 
 The `drbd` cookbook does not partition drives. It will format partitions given a filesystem type, but it does not explicitly depend on the `xfs` cookbook if you want that type of filesystem, but you can put it in your run list and set the node['drbd']['fs_type'] to 'xfs' or 'ext4' or whatever.
@@ -39,9 +43,10 @@ There are a pair of example roles `drbd-pair.rb` and `drbd-pair-master.rb` with 
 License and Author
 ==================
 
-Author: Matt Ray (<matt@chef.io>)
+Author:: Matt Ray (<matt@chef.io>)
 
-Copyright 2011, Chef Software, Inc.
+```text
+Copyright:: 2011-2015, Chef Software, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -54,3 +59,4 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+```
