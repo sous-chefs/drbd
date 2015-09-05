@@ -22,7 +22,7 @@ require 'chef/shell_out'
 
 include_recipe "drbd"
 
-resource = "pair"
+resource = node["drbd"]["resource_name"]
 
 if node['drbd']['remote_host'].nil?
   Chef::Application.fatal! "You must have a ['drbd']['remote_host'] defined to use the drbd::pair recipe."
@@ -40,8 +40,12 @@ template "/etc/drbd.d/#{resource}.res" do
 end
 
 #first pass only, initialize drbd
-execute "drbdadm create-md #{resource}" do
-  subscribes :run, "template[/etc/drbd.d/#{resource}.res]"
+execute ":create drbd volume" do
+  command "drbdadm --force create-md #{resource}"
+  subscribes :run, "template[/etc/drbd.d/#{resource}.res]", :immediately
+  notifies :create, "ruby_block[:load drbd module]", :immediately
+  notifies :run, "execute[:bring up the drbd volume]", :immediately
+  notifies :run, "execute[:init drdb volume]", :immediately
   notifies :restart, "service[drbd]", :immediately
   only_if do
     cmd = Mixlib::ShellOut.new("drbd-overview")
@@ -52,16 +56,33 @@ execute "drbdadm create-md #{resource}" do
   action :nothing
 end
 
+ruby_block ":load drbd module" do
+  block do
+    cmd = Mixlib::ShellOut.new("modprobe drbd")
+    cmd.run_command
+    cmd.error!
+  end
+  not_if { ::File.exists?("/proc/drbd") }
+  action :nothing
+end
+
+execute ':bring up the drbd volume' do
+  command "drbdadm up #{resource}"
+  only_if { node['drbd']['master'] && !node['drbd']['configured'] }
+  action :nothing
+end
+
 #claim primary based off of node['drbd']['master']
-execute "drbdadm -- --overwrite-data-of-peer primary all" do
-  subscribes :run, "execute[drbdadm create-md #{resource}]"
+execute ":init drdb volume" do
+  command "drbdadm -- --overwrite-data-of-peer primary all"
   only_if { node['drbd']['master'] && !node['drbd']['configured'] }
   action :nothing
 end
 
 #You may now create a filesystem on the device, use it as a raw block device
-execute "mkfs -t #{node['drbd']['fs_type']} #{node['drbd']['dev']}" do
-  subscribes :run, "execute[drbdadm -- --overwrite-data-of-peer primary all]"
+execute ":create filesystem" do
+  command "mkfs -t #{node['drbd']['fs_type']} #{node['drbd']['dev']}"
+  subscribes :run, "execute[:init drdb volume]", :immediately
   only_if { node['drbd']['master'] && !node['drbd']['configured'] }
   action :nothing
 end
@@ -75,6 +96,7 @@ end
 mount node['drbd']['mount'] do
   device node['drbd']['dev']
   fstype node['drbd']['fs_type']
+  options node['drbd']['mount_options']
   only_if { node['drbd']['master'] && node['drbd']['configured'] }
   action :mount
 end
@@ -83,6 +105,7 @@ end
 ruby_block "set drbd configured flag" do
   block do
     node.set['drbd']['configured'] = true
+    node.save
   end
   subscribes :create, "execute[mkfs -t #{node['drbd']['fs_type']} #{node['drbd']['dev']}]"
   action :nothing
