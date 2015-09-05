@@ -20,48 +20,48 @@
 
 require 'chef/shell_out'
 
-include_recipe "drbd"
+include_recipe 'drbd'
 
-resource = "pair"
+resource = 'pair'
 
 if node['drbd']['remote_host'].nil?
   Chef::Application.fatal! "You must have a ['drbd']['remote_host'] defined to use the drbd::pair recipe."
 end
 
 template "/etc/drbd.d/#{resource}.res" do
-  source "res.erb"
+  source 'res.erb'
   variables(
-    :resource => resource,
-    :remote_ip => node['drbd']['remote_ip']
-    )
-  owner "root"
-  group "root"
+    resource: resource,
+    remote_ip: node['drbd']['remote_ip']
+  )
+  owner 'root'
+  group 'root'
   action :create
 end
 
-#first pass only, initialize drbd
+# first pass only, initialize drbd
 execute "drbdadm create-md #{resource}" do
   subscribes :run, "template[/etc/drbd.d/#{resource}.res]"
-  notifies :restart, "service[drbd]", :immediately
+  notifies :restart, 'service[drbd]', :immediately
   only_if do
-    cmd = Mixlib::ShellOut.new("drbd-overview")
+    cmd = Mixlib::ShellOut.new('drbd-overview')
     overview = cmd.run_command
     Chef::Log.info overview.stdout
-    overview.stdout.include?("drbd not loaded")
+    overview.stdout.include?('drbd not loaded')
   end
   action :nothing
 end
 
-#claim primary based off of node['drbd']['master']
-execute "drbdadm -- --overwrite-data-of-peer primary all" do
+# claim primary based off of node['drbd']['master']
+execute 'drbdadm -- --overwrite-data-of-peer primary all' do
   subscribes :run, "execute[drbdadm create-md #{resource}]"
   only_if { node['drbd']['master'] && !node['drbd']['configured'] }
   action :nothing
 end
 
-#You may now create a filesystem on the device, use it as a raw block device
+# You may now create a filesystem on the device, use it as a raw block device
 execute "mkfs -t #{node['drbd']['fs_type']} #{node['drbd']['dev']}" do
-  subscribes :run, "execute[drbdadm -- --overwrite-data-of-peer primary all]"
+  subscribes :run, 'execute[drbdadm -- --overwrite-data-of-peer primary all]'
   only_if { node['drbd']['master'] && !node['drbd']['configured'] }
   action :nothing
 end
@@ -71,7 +71,7 @@ directory node['drbd']['mount'] do
   action :create
 end
 
-#mount -t xfs -o rw /dev/drbd0 /shared
+# mount -t xfs -o rw /dev/drbd0 /shared
 mount node['drbd']['mount'] do
   device node['drbd']['dev']
   fstype node['drbd']['fs_type']
@@ -79,8 +79,8 @@ mount node['drbd']['mount'] do
   action :mount
 end
 
-#hack to get around the mount failing
-ruby_block "set drbd configured flag" do
+# HACK: to get around the mount failing
+ruby_block 'set drbd configured flag' do
   block do
     node.set['drbd']['configured'] = true
   end

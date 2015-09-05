@@ -17,17 +17,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#prime the search to avoid 2 masters
+# prime the search to avoid 2 masters
 node.save unless Chef::Config[:solo]
 
-package "drbd8-utils" do
+package 'drbd8-utils' do
   action :install
 end
 
-service "drbd" do
+service 'drbd' do
   supports(
-    :restart => true,
-    :status => true
+    restart: true,
+    status: true
   )
   action :nothing
 end
