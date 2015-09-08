@@ -10,5 +10,5 @@ version '0.9.1'
   supports os
 end
 
-source_url 'https://github.com/opscode-cookbooks/drbd' if respond_to?(:source_url)
-issues_url 'https://github.com/opscode-cookbooks/drbd/issues' if respond_to?(:issues_url)
+source_url 'https://github.com/chef-cookbooks/drbd' if respond_to?(:source_url)
+issues_url 'https://github.com/chef-cookbooks/drbd/issues' if respond_to?(:issues_url)

@@ -1,7 +1,7 @@
 drbd Cookbook
 =============
 
-[![Build Status](https://travis-ci.org/opscode-cookbooks/drbd.svg?branch=master)](https://travis-ci.org/opscode-cookbooks/drbd)
+[![Build Status](https://travis-ci.org/chef-cookbooks/drbd.svg?branch=master)](https://travis-ci.org/chef-cookbooks/drbd)
 [![Cookbook Version](https://img.shields.io/cookbook/v/drbd.svg)](https://supermarket.chef.io/cookbooks/drbd)
 
 Installs and configures the Distributed Replicated Block Device (DRBD) service for mirroring block devices between a pair of hosts. Right now it simply works in pairs, multiple hosts could be supported with a few small changes.
