@@ -24,7 +24,7 @@ v0.10.0 (2015-10-20)
 
 v0.9.0 (2014-06-11)
 -------------------
-#3 - [CHEF-4979] add support for centos and multiple netwrok interfaces
+- #3 - [CHEF-4979] add support for centos and multiple netwrok interfaces
 
 
 v0.8.2
