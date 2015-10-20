@@ -4,7 +4,7 @@ This file is used to list changes made in each version of the drbd cookbook.
 
 v0.10.0 (2015-10-20)
 -------------------
-* Converte Chef::Shellout to Mixlib::Shellout to prevent deprecation warnings
+* Converted Chef::Shellout to Mixlib::Shellout to prevent deprecation warnings
 * Changed Opscode -> Chef Software
 * Added gitignore file
 * Added chefignore file
