@@ -28,7 +28,7 @@ when 'rhel', 'fedora', 'suse'
 end
 
 drbd_packages = value_for_platform_family(
-  ['rhel', 'fedora', 'suse'] => ['drbd84-utils'],
+  ['rhel', 'fedora', 'suse'] => ['kmod-drbd84', 'drbd84-utils'],
   ['default', 'debian'] => ['drbd8-utils']
 )
 
