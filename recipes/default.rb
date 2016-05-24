@@ -21,14 +21,14 @@
 node.save
 
 case node['platform']
-when 'rhel', 'fedora', 'suse'
+when 'rhel', 'fedora', 'suse', 'amazon', 'scientific', 'oracle'
   if node['drbd']['custom_repo'] != true
     include_recipe 'yum-elrepo'
   end
 end
 
 drbd_packages = value_for_platform_family(
-  ['rhel', 'fedora', 'suse'] => ['kmod-drbd84', 'drbd84-utils'],
+  ['rhel', 'fedora', 'suse', 'amazon', 'scientific', 'oracle'] => ['kmod-drbd84', 'drbd84-utils'],
   ['default', 'debian'] => ['drbd8-utils']
 )
 
