@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the drbd cookbook.
 
+## 1.0.0 (2016-09-15)
+- Testing updates
+- Require Chef 12.1
+
 ## v0.10.0 (2015-10-20)
 
 - Converted Chef::Shellout to Mixlib::Shellout to prevent deprecation warnings
