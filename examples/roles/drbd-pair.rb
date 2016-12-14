@@ -8,7 +8,7 @@ override_attributes(
     'local_ip' => '192.168.0.1',
     'disk' => '/dev/sdb1',
     'fs_type' => 'xfs',
-    'mount' => '/shared'
+    'mount' => '/shared',
   }
 )
 

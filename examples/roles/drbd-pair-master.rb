@@ -9,7 +9,7 @@ override_attributes(
     'disk' => '/dev/sdb1',
     'fs_type' => 'xfs',
     'mount' => '/shared',
-    'master' => true
+    'master' => true,
   }
 )
 
