@@ -20,17 +20,18 @@
 # prime the search to avoid 2 masters
 node.save
 
-case node['platform']
-when 'debian', 'ubuntu'
-when 'redhat', 'centos' 'fedora', 'amazon', 'scientific', 'oracle'
-  if node['drbd']['custom_repo'] != true
+include_recipe 'yum-elrepo'
+
+if node['drbd']['custom_repo'] != true
+  case node['platform']
+  when 'redhat', 'centos', 'fedora', 'amazon', 'scientific', 'oracle'
     include_recipe 'yum-elrepo'
   end
 end
 
 drbd_packages = value_for_platform_family(
-  ['rhel', 'fedora', 'suse', 'amazon', 'scientific', 'oracle'] => ['kmod-drbd84', 'drbd84-utils'],
-  ['default', 'debian'] => ['drbd8-utils']
+  %w(rhel fedora amazon scientific oracle) => %w(kmod-drbd84 drbd84-utils),
+  %w(default debian) => %w(drbd8-utils)
 )
 
 drbd_packages.each do |pack|
