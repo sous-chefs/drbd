@@ -20,7 +20,7 @@
 # prime the search to avoid 2 masters
 node.save
 
-case node['platform']
+case node['platform_family']
 when 'rhel', 'fedora', 'suse', 'amazon', 'scientific', 'oracle'
   if node['drbd']['custom_repo'] != true
     include_recipe 'yum-elrepo'

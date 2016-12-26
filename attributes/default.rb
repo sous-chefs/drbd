@@ -6,3 +6,4 @@ default['drbd']['dev'] = '/dev/drbd0'
 default['drbd']['master'] = false
 default['drbd']['port'] = 7789
 default['drbd']['configured'] = false
+default['drbd']['custom-repo'] = false
