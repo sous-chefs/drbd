@@ -2,7 +2,14 @@
 
 This file is used to list changes made in each version of the drbd cookbook.
 
+## 2.0.0 (2017-02-18)
+
+- Remove chef-solo compatibility check
+- Add support for RHEL platforms by using yum-elrepo repository
+- Use multi-package installs to speed up chef converges
+
 ## 1.0.0 (2016-09-15)
+
 - Testing updates
 - Require Chef 12.1
 
