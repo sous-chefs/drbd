@@ -32,11 +32,7 @@ drbd_packages = value_for_platform_family(
   %w(default debian) => %w(drbd8-utils)
 )
 
-drbd_packages.each do |pack|
-  package pack do
-    action :install
-  end
-end
+package drbd_packages
 
 service 'drbd' do
   supports(
