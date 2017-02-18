@@ -13,15 +13,13 @@ The `drbd` cookbook does not partition drives. It will format partitions given a
 - Ubuntu
 - CentOS
 
-Tested with Ubuntu 10.04, 10.10 and CentOS 6.4\. You must have the 'linux-server' package and 'linux-headers-server' kernel installed to properly support the drbd module. In CentOS it will subscribe to EL Repository to access necessary drbd rpm packages.
-
 ### Chef
 
 - Chef 12.1+
 
 ### Cookbooks
 
-- none
+- yum-elrepo
 
 ## Recipes
 
