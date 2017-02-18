@@ -1,5 +1,4 @@
 #
-# Author:: Matt Ray <matt@chef.io>
 # Cookbook:: drbd
 # Recipe:: default
 #
@@ -20,11 +19,8 @@
 # prime the search to avoid 2 masters
 node.save
 
-if node['drbd']['custom_repo'] != true
-  case node['platform']
-  when 'redhat', 'centos', 'fedora', 'amazon', 'scientific', 'oracle'
-    include_recipe 'yum-elrepo'
-  end
+unless node['drbd']['custom_repo']
+  include_recipe 'yum-elrepo' if platform_family?('rhel', 'fedora')
 end
 
 drbd_packages = value_for_platform_family(
