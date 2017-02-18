@@ -28,7 +28,7 @@ if node['drbd']['custom_repo'] != true
 end
 
 drbd_packages = value_for_platform_family(
-  %w(rhel fedora amazon scientific oracle) => %w(kmod-drbd84 drbd84-utils),
+  %w(rhel fedora) => %w(kmod-drbd84 drbd84-utils),
   %w(default debian) => %w(drbd8-utils)
 )
 
