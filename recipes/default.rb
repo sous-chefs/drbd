@@ -20,8 +20,22 @@
 # prime the search to avoid 2 masters
 node.save
 
-package 'drbd8-utils' do
-  action :install
+if node['drbd']['custom_repo'] != true
+  case node['platform']
+  when 'redhat', 'centos', 'fedora', 'amazon', 'scientific', 'oracle'
+    include_recipe 'yum-elrepo'
+  end
+end
+
+drbd_packages = value_for_platform_family(
+  %w(rhel fedora amazon scientific oracle) => %w(kmod-drbd84 drbd84-utils),
+  %w(default debian) => %w(drbd8-utils)
+)
+
+drbd_packages.each do |pack|
+  package pack do
+    action :install
+  end
 end
 
 service 'drbd' do

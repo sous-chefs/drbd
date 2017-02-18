@@ -14,6 +14,9 @@ platforms:
   - name: ubuntu-16.04
     run_list:
     - recipe[apt::default]
+  - name: centos-6.8
+    run_list:
+    - recipe[yum::default]
 
 suites:
   - name: default
