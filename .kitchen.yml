@@ -6,9 +6,6 @@ provisioner:
   deprecations_as_errors: true
 
 platforms:
-  - name: ubuntu-12.04
-    run_list:
-    - recipe[apt::default]
   - name: ubuntu-14.04
     run_list:
     - recipe[apt::default]
