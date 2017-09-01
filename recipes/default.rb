@@ -17,7 +17,7 @@
 # limitations under the License.
 
 # prime the search to avoid 2 masters
-node.save
+node.save # ~FC075
 
 unless node['drbd']['custom_repo']
   include_recipe 'yum-elrepo' if platform_family?('rhel', 'fedora')
