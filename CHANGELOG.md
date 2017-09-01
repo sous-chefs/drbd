@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the drbd cookbook.
 
+## 2.0.1 (2017-09-01)
+
+- Use a SPDX standard license string
+- Disable FC075 where we actually need it
+- Cleanup Travis testing and Kitchen config
+
 ## 2.0.0 (2017-02-18)
 
 - Remove chef-solo compatibility check
