@@ -22,7 +22,7 @@ end
 
 describe 'default recipe on CentOS 6' do
   let(:chef_run) do
-    ChefSpec::ServerRunner.new(platform: 'centos', version: '6.8').converge('drbd::default')
+    ChefSpec::ServerRunner.new(platform: 'centos', version: '6.9').converge('drbd::default')
   end
 
   it 'converges successfully' do
