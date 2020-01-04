@@ -15,7 +15,7 @@ The `drbd` cookbook does not partition drives. It will format partitions given a
 
 ### Chef
 
-- Chef 12.1+
+- Chef 12.15+
 
 ### Cookbooks
 
