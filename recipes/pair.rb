@@ -25,7 +25,7 @@ include_recipe 'drbd'
 resource = 'pair'
 
 if node['drbd']['remote_host'].nil?
-  Chef::Application.fatal! "You must have a ['drbd']['remote_host'] defined to use the drbd::pair recipe."
+  raise("You must have a ['drbd']['remote_host'] defined to use the drbd::pair recipe.")
 end
 
 template "/etc/drbd.d/#{resource}.res" do
