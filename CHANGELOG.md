@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the drbd cookbook.
 
+## Unreleased
+
+- resolved cookstyle error: recipes/pair.rb:28:3 refactor: `ChefCorrectness/ChefApplicationFatal`
+
 ## 2.0.1 (2017-09-01)
 
 - Use a SPDX standard license string
