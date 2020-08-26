@@ -4,6 +4,7 @@ This file is used to list changes made in each version of the drbd cookbook.
 
 ## Unreleased
 
+- resolved cookstyle error: spec/unit/recipes/default_spec.rb:25:5 warning: `ChefDeprecations/DeprecatedChefSpecPlatform`
 - resolved cookstyle error: recipes/pair.rb:28:3 refactor: `ChefCorrectness/ChefApplicationFatal`
 
 ## 2.0.1 (2017-09-01)
