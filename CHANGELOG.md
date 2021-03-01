@@ -4,8 +4,8 @@ This file is used to list changes made in each version of the drbd cookbook.
 
 ## Unreleased
 
-- resolved cookstyle error: spec/unit/recipes/default_spec.rb:25:5 warning: `ChefDeprecations/DeprecatedChefSpecPlatform`
-- resolved cookstyle error: recipes/pair.rb:28:3 refactor: `ChefCorrectness/ChefApplicationFatal`
+- Sous Chefs Adoption
+- Cookstyle Fixes
 
 ## 2.0.1 (2017-09-01)
 
@@ -40,7 +40,7 @@ This file is used to list changes made in each version of the drbd cookbook.
 - Added travis and cookbook version badges to the readme
 - Added a Rakefile for simplified testing
 - Added additional platforms to the metadata
-- Added source_url and issues_url to the metadata
+- Added source\_url and issues\_url to the metadata
 - Added basic convergence Chefspec
 - Resolved Rubocop warnings
 
