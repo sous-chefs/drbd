@@ -16,17 +16,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# prime the search to avoid 2 masters
-node.save
-
 unless node['drbd']['custom_repo']
   include_recipe 'yum-elrepo' if platform_family?('rhel', 'fedora')
 end
-
-drbd_packages = value_for_platform_family(
-  %w(rhel fedora) => %w(kmod-drbd84 drbd84-utils),
-  %w(default debian) => %w(drbd8-utils)
-)
 
 package drbd_packages
 
