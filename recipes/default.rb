@@ -20,7 +20,7 @@ unless node['drbd']['custom_repo']
   include_recipe 'yum-elrepo' if platform_family?('rhel', 'fedora', 'amazon')
 end
 
-package drbd_packages
+package node['drbd']['packages']
 
 service 'drbd' do
   supports(
