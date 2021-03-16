@@ -1,7 +1,7 @@
 # drbd Cookbook
 
-[![Cookbook Version](https://img.shields.io/cookbook/v/nscd.svg)](https://supermarket.chef.io/cookbooks/nscd)
-[![CI State](https://github.com/sous-chefs/nscd/workflows/ci/badge.svg)](https://github.com/sous-chefs/nscd/actions?query=workflow%3Aci)
+[![Cookbook Version](https://img.shields.io/cookbook/v/drbd.svg)](https://supermarket.chef.io/cookbooks/drbd)
+[![CI State](https://github.com/sous-chefs/drbd/workflows/ci/badge.svg)](https://github.com/sous-chefs/drbd/actions?query=workflow%3Aci)
 [![OpenCollective](https://opencollective.com/sous-chefs/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/sous-chefs/sponsors/badge.svg)](#sponsors)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
