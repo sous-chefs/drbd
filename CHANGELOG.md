@@ -4,6 +4,7 @@ This file is used to list changes made in each version of the drbd cookbook.
 
 ## Unreleased
 
+- Updates default version to 9.0 on supported platforms
 - Sous Chefs Adoption
 - Cookstyle Fixes
 

@@ -33,7 +33,9 @@ This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of
 
 ### default
 
-Installs drbd but does no configuration.
+Installs drbd but does no configuration. If another version of drbd is desired, set the `node['drbd']['packages']` attribute.
+
+For example, to install drdb 8.4 on CentOS you might set `node.override['drbd']['packages'] = %w(drbd84-utils kmod-drbd84)`.
 
 ## pair
 
@@ -43,13 +45,17 @@ Given a filesystem and a partner host, configures block replication between the 
 
 The required attributes are
 
-- `node['drbd]['remote_host']` - Remote host to pair with.
-- `node['drbd]['remote_ip']` - Remote host to pair with.
-- `node['drbd]['local_ip']` - Remote host to pair with.
-- `node['drbd]['disk']` - Disk partition to mirror.
-- `node['drbd]['mount']` - Mount point to mirror.
-- `node['drbd]['fs_type']` - Disk format for the mirrored disk, defaults to `ext3`.
-- `node['drbd]['master']` - Whether this node is master between the pair, defaults to `false`.
+- `node['drbd']['remote_host']` - Remote host to pair with.
+- `node['drbd']['remote_ip']` - Remote host to pair with.
+- `node['drbd']['local_ip']` - Remote host to pair with.
+- `node['drbd']['disk']` - Disk partition to mirror.
+- `node['drbd']['mount']` - Mount point to mirror.
+- `node['drbd']['fs_type']` - Disk format for the mirrored disk, defaults to `ext3`.
+- `node['drbd']['master']` - Whether this node is master between the pair, defaults to `false`.
+
+The optional attributes are
+
+- `node['drbd']['packages']` - What packages are needed to install drbd, defaults to `drbd_packages` helper.
 
 ## Roles
 
