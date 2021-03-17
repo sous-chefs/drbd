@@ -2,6 +2,8 @@
 
 This file is used to list changes made in each version of the drbd cookbook.
 
+## Unreleased
+
 ## 3.0.0 - *2021-03-17*
 
 - Updates default version to 9.0 on supported platforms
