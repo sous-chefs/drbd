@@ -17,6 +17,7 @@
 # limitations under the License.
 #
 
+default['drbd']['packages'] = drbd_packages
 default['drbd']['remote_host'] = nil
 default['drbd']['disk'] = nil
 default['drbd']['mount'] = nil

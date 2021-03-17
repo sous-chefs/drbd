@@ -6,14 +6,19 @@ provisioner:
   deprecations_as_errors: true
   chef_license: accept-no-persist
 
+verifier:
+  name: inspec
+
 platforms:
-  - name: ubuntu-14.04
-    run_list:
-    - recipe[apt::default]
-  - name: ubuntu-16.04
-    run_list:
-    - recipe[apt::default]
-  - name: centos-6
+  - name: amazonlinux-2
+  - name: centos-7
+  - name: centos-8
+  - name: debian-9
+  - name: debian-10
+  - name: fedora-latest
+  - name: opensuse-leap-15
+  - name: ubuntu-18.04
+  - name: ubuntu-20.04
 
 suites:
   - name: default
