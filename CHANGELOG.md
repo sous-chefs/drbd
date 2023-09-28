@@ -2,6 +2,8 @@
 
 This file is used to list changes made in each version of the drbd cookbook.
 
+## Unreleased
+
 ## 3.0.10 - *2023-09-28*
 
 ## 3.0.9 - *2023-06-08*
