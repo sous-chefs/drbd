@@ -2,6 +2,13 @@
 
 This file is used to list changes made in each version of the drbd cookbook.
 
+## [3.0.17](https://github.com/sous-chefs/drbd/compare/v3.0.16...v3.0.17) (2025-10-16)
+
+
+### Bug Fixes
+
+* **ci:** Update workflows to use release pipeline ([#44](https://github.com/sous-chefs/drbd/issues/44)) ([884cb53](https://github.com/sous-chefs/drbd/commit/884cb53ecda7332a93ea885e164e712be9e06300))
+
 ## [3.0.16](https://github.com/sous-chefs/drbd/compare/3.0.15...v3.0.16) (2025-10-15)
 
 
