@@ -15,6 +15,9 @@ This cookbook now exposes a resource-first API for the core DRBD workflow:
 
 The legacy `drbd::default` and `drbd::pair` recipes remain as compatibility wrappers in this incremental modernization slice.
 
+> Breaking change note
+> Treat the move to `drbd_install` and `drbd_pair` as the compatibility boundary for the next major release. The `drbd::default` and `drbd::pair` recipes still exist, and the documented legacy attributes below are still mapped into those resources. Compatibility does not extend to older recipe internals or the previous persisted `node['drbd']['configured']` flow, so wrapper cookbooks that depend on those details should migrate to direct resource usage.
+
 The `drbd` cookbook does not partition drives. It will format partitions given a filesystem type, but it does not explicitly depend on the `xfs` cookbook if you want that type of filesystem, but you can put it in your run list and set the node['drbd']['fs_type'] to 'xfs' or 'ext4' or whatever.
 
 ## Maintainers

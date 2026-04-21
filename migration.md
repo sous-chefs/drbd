@@ -10,6 +10,16 @@ This cookbook is in an incremental migration from attributes and recipes to cust
 * The legacy `drbd::default` and `drbd::pair` recipes remain as compatibility wrappers.
 * Historical node attributes are still mapped by the compatibility recipes, but new usage should be resource-first.
 
+## Breaking change boundary
+
+Treat this migration as the compatibility boundary for the next major release:
+
+* `drbd::default` and `drbd::pair` still exist as wrappers.
+* The historical attributes documented in this guide and in the README are still translated into `drbd_install` and `drbd_pair`.
+* Compatibility is not guaranteed for consumers that depend on older recipe internals or the previous persisted `node['drbd']['configured']` flow.
+
+If your wrapper cookbook only includes the legacy recipes and sets the documented attributes, it still has a compatibility path. If it depends on the old recipe implementation details, migrate to the custom resources directly.
+
 ## How to migrate
 
 Legacy pattern:
