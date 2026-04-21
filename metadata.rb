@@ -12,8 +12,6 @@ chef_version      '>= 15.3'
 
 depends 'yum-elrepo'
 
-supports 'almalinux'
-supports 'amazon'
 supports 'debian'
 supports 'fedora'
 supports 'opensuseleap'

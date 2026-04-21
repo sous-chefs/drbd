@@ -25,8 +25,6 @@ This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of
 
 ### Platforms
 
-* AlmaLinux
-* Amazon Linux
 * Debian
 * Fedora
 * openSUSE Leap
@@ -41,6 +39,8 @@ This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of
 ### Cookbooks
 
 * yum-elrepo
+
+Current automated verification in this migration branch covers Debian 12 and Ubuntu 24.04. The legacy ELRepo-based RPM path does not currently provide installable DRBD packages on AlmaLinux 9 or Amazon Linux 2023, so those platforms are not part of the verified support matrix for this release line.
 
 ## Recipes
 

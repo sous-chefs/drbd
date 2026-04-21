@@ -5,8 +5,8 @@ module Drbd
     module Helpers
       def default_packages
         return %w(drbd8-utils) if platform?('debian') && node['platform_version'].to_i <= 9
-        return %w(drbd90-utils kmod-drbd90) if platform_family?('rhel') && node['platform_version'].to_i >= 7
-        return %w(drbd90-utils kmod-drbd90) if platform?('amazon')
+        return %w(drbd-utils kmod-drbd) if platform_family?('rhel') && node['platform_version'].to_i >= 7
+        return %w(drbd-utils kmod-drbd) if platform?('amazon')
         return %w(drbd) if platform?('fedora')
 
         %w(drbd-utils)

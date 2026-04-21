@@ -79,5 +79,6 @@ Additional constraints:
 ## Known Issues
 
 * The cookbook's legacy RHEL path is tied to ELRepo, not LINBIT's own repositories.
+* The current ELRepo-based RPM path does not produce installable DRBD packages on AlmaLinux 9 or Amazon Linux 2023 in this cookbook's automated tests, so those platforms are not part of the verified support matrix for the current migration branch.
 * The legacy pairing flow depends on implicit node state (`configured`) and documented multi-run convergence.
 * A single-node Kitchen suite can verify installation and resource compilation, but it cannot fully prove two-node DRBD replication semantics.
