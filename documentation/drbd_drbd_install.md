@@ -13,8 +13,8 @@ Installs the DRBD userspace and kernel packages needed for this cookbook's resou
 | Property | Type | Default | Description |
 | --- | --- | --- | --- |
 | `instance_name` | String | `name property` | Resource name. |
-| `packages` | String, Array | platform-specific package list | Package or packages to install. |
-| `manage_repository` | TrueClass, FalseClass | platform-specific | Includes `yum-elrepo::default` on the historic RHEL-family path when `true`. |
+| `packages` | String, Array | platform-specific package list | Package or packages to install. EL9 x86_64 defaults to `drbd9x-utils` and `kmod-drbd9x`. |
+| `manage_repository` | TrueClass, FalseClass | platform-specific | Includes `yum-elrepo::default` on the RHEL-family path when `true`. |
 
 ## Examples
 

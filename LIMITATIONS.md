@@ -53,6 +53,11 @@ This cookbook does not currently manage LINBIT repositories directly. It relies 
 
 That means cookbook support and LINBIT-certified repository support are not the same thing.
 
+For the ELRepo-backed EL9 path, current public repo metadata as of April 22, 2026 shows:
+
+* `x86_64` publishes `drbd9x-utils` and `kmod-drbd9x`
+* `aarch64` currently publishes only `elrepo-release`, not DRBD packages
+
 ## Architecture Limitations
 
 * LINBIT's public APT repositories are clearly multi-arch today; this is broader than the cookbook's current package helper logic.
@@ -78,7 +83,10 @@ Additional constraints:
 
 ## Known Issues
 
+* DRBD remains supported on RHEL through LINBIT; this cookbook keeps `redhat` support in `metadata.rb` and covers the default RHEL package path in ChefSpec.
 * The cookbook's legacy RHEL path is tied to ELRepo, not LINBIT's own repositories.
-* The current ELRepo-based RPM path does not produce installable DRBD packages on AlmaLinux 9 or Amazon Linux 2023 in this cookbook's automated tests, so those platforms are not part of the verified support matrix for the current migration branch.
+* The current Kitchen matrix does not exercise a subscribed RHEL image, so RHEL support is covered by metadata and unit tests rather than Dokken integration runs.
+* EL9 `aarch64` is not part of the verified support matrix because ELRepo's current public EL9 `aarch64` repo metadata does not publish DRBD packages.
+* Amazon Linux 2023 is not part of the verified support matrix for the current migration branch.
 * The legacy pairing flow depends on implicit node state (`configured`) and documented multi-run convergence.
 * A single-node Kitchen suite can verify installation and resource compilation, but it cannot fully prove two-node DRBD replication semantics.

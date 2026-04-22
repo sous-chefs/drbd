@@ -16,6 +16,5 @@ verifier:
 
 platforms:
   - name: almalinux-9
-  - name: amazonlinux-2023
   - name: debian-12
   - name: ubuntu-24.04

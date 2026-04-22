@@ -7,6 +7,11 @@ transport: { name: dokken }
 provisioner: { name: dokken }
 
 platforms:
+  - name: almalinux-9
+    driver:
+      image: dokken/almalinux-9
+      pid_one_command: /usr/lib/systemd/systemd
+
   - name: debian-12
     driver:
       image: dokken/debian-12

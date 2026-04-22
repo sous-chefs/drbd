@@ -30,6 +30,7 @@ This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of
 * openSUSE Leap
 * Oracle Linux
 * Red Hat Enterprise Linux
+* AlmaLinux
 * Ubuntu
 
 ### Chef
@@ -40,13 +41,13 @@ This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of
 
 * yum-elrepo
 
-Current automated verification in this migration branch covers Debian 12 and Ubuntu 24.04. The legacy ELRepo-based RPM path does not currently provide installable DRBD packages on AlmaLinux 9 or Amazon Linux 2023, so those platforms are not part of the verified support matrix for this release line.
+Current x86_64 Kitchen verification in this migration branch covers AlmaLinux 9, Debian 12, and Ubuntu 24.04. On EL9 x86_64, the cookbook installs `drbd9x-utils` and `kmod-drbd9x` from ELRepo. RHEL support remains declared through the same ELRepo path, and ChefSpec covers that package-selection flow explicitly. EL9 `aarch64` and Amazon Linux 2023 remain outside the verified matrix for this release line.
 
 ## Recipes
 
 ### drbd_install
 
-Installs DRBD packages. On the historic RHEL-family path it can still bootstrap `yum-elrepo`.
+Installs DRBD packages. On the RHEL path it bootstraps `yum-elrepo` by default. EL9 x86_64 installs `drbd9x-utils` and `kmod-drbd9x`; older EL releases continue using `drbd-utils` and `kmod-drbd`.
 
 ```ruby
 drbd_install 'default'

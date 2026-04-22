@@ -15,16 +15,45 @@ describe 'drbd_install' do
     it { is_expected.to install_package(%w(drbd-utils)) }
   end
 
-  context 'with an explicit package list on alma linux' do
-    platform 'almalinux', '9'
+  context 'on red hat enterprise linux 9 x86_64' do
+    platform 'redhat', '9'
+    automatic_attributes['kernel']['machine'] = 'x86_64'
 
     recipe do
       drbd_install 'default' do
-        packages %w(drbd90-utils kmod-drbd90)
         manage_repository false
       end
     end
 
-    it { is_expected.to install_package(%w(drbd90-utils kmod-drbd90)) }
+    it { is_expected.to install_package(%w(drbd9x-utils kmod-drbd9x)) }
+  end
+
+  context 'on almalinux 9 x86_64' do
+    platform 'almalinux', '9'
+    automatic_attributes['kernel']['machine'] = 'x86_64'
+
+    recipe do
+      drbd_install 'default' do
+        manage_repository false
+      end
+    end
+
+    it { is_expected.to install_package(%w(drbd9x-utils kmod-drbd9x)) }
+  end
+
+  context 'on almalinux 9 aarch64 with repository management' do
+    platform 'almalinux', '9'
+    automatic_attributes['kernel']['machine'] = 'aarch64'
+
+    recipe do
+      drbd_install 'default'
+    end
+
+    it 'fails with a clear ELRepo architecture message' do
+      expect { chef_run }.to raise_error(
+        Chef::Exceptions::Package,
+        /ELRepo does not publish EL9 DRBD packages for aarch64/
+      )
+    end
   end
 end

@@ -16,6 +16,11 @@ action_class do
 end
 
 action :create do
+  if new_resource.manage_repository && unsupported_el9_repository_architecture?
+    raise Chef::Exceptions::Package,
+          "ELRepo does not publish EL9 DRBD packages for #{kernel_machine || 'unknown'}; use x86_64 or disable repository management and override the package list."
+  end
+
   run_context.include_recipe('yum-elrepo::default') if new_resource.manage_repository
 
   package new_resource.packages
