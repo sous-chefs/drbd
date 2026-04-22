@@ -1,26 +1,36 @@
+---
 driver:
   name: vagrant
 
 provisioner:
-  name: chef_zero
+  name: chef_infra
+  product_name: chef
+  product_version: latest
+  channel: stable
+  install_strategy: once
+  enforce_idempotency: true
+  multiple_converge: 2
   deprecations_as_errors: true
-  chef_license: accept-no-persist
+  chef_license: accept
 
 verifier:
   name: inspec
 
+x-run_lists:
+  default: &default_run_list
+    - recipe[test::default]
+
+x-verifiers:
+  default: &default_verifier
+    inspec_tests:
+      - path: test/integration/default
+
 platforms:
-  - name: amazonlinux-2
-  - name: centos-7
-  - name: centos-8
-  - name: debian-9
-  - name: debian-10
-  - name: fedora-latest
-  - name: opensuse-leap-15
-  - name: ubuntu-18.04
-  - name: ubuntu-20.04
+  - name: almalinux-9
+  - name: debian-12
+  - name: ubuntu-24.04
 
 suites:
   - name: default
-    run_list:
-      - recipe[drbd::default]
+    run_list: *default_run_list
+    verifier: *default_verifier

@@ -8,6 +8,13 @@
 
 Installs and configures the Distributed Replicated Block Device (DRBD) service for mirroring block devices between a pair of hosts. Right now it simply works in pairs, multiple hosts could be supported with a few small changes.
 
+This cookbook now exposes a resource-first API for the core DRBD workflow:
+
+* `drbd_install` installs the DRBD packages
+* `drbd_pair` renders pair configuration and exposes initialization, promotion, formatting, and mounting as explicit actions
+
+The legacy `drbd::default` and `drbd::pair` recipes remain as compatibility wrappers in this incremental modernization slice.
+
 The `drbd` cookbook does not partition drives. It will format partitions given a filesystem type, but it does not explicitly depend on the `xfs` cookbook if you want that type of filesystem, but you can put it in your run list and set the node['drbd']['fs_type'] to 'xfs' or 'ext4' or whatever.
 
 ## Maintainers
@@ -18,44 +25,67 @@ This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of
 
 ### Platforms
 
-- Ubuntu
-- CentOS
+* Debian
+* Fedora
+* openSUSE Leap
+* Oracle Linux
+* Red Hat Enterprise Linux
+* AlmaLinux
+* Ubuntu
 
 ### Chef
 
-- Chef 12.15+
+* Chef 15.3+
 
 ### Cookbooks
 
-- yum-elrepo
+* yum-elrepo
+
+Current x86_64 Kitchen verification in this migration branch covers AlmaLinux 9, Debian 12, and Ubuntu 24.04. On EL9 x86_64, the cookbook installs `drbd9x-utils` and `kmod-drbd9x` from ELRepo. RHEL support remains declared through the same ELRepo path, and ChefSpec covers that package-selection flow explicitly. EL9 `aarch64` and Amazon Linux 2023 remain outside the verified matrix for this release line.
 
 ## Recipes
 
-### default
+### drbd_install
 
-Installs drbd but does no configuration. If another version of drbd is desired, set the `node['drbd']['packages']` attribute.
+Installs DRBD packages. On the RHEL path it bootstraps `yum-elrepo` by default. EL9 x86_64 installs `drbd9x-utils` and `kmod-drbd9x`; older EL releases continue using `drbd-utils` and `kmod-drbd`.
 
-For example, to install drdb 8.4 on CentOS you might set `node.override['drbd']['packages'] = %w(drbd84-utils kmod-drbd84)`.
+```ruby
+drbd_install 'default'
+```
 
-## pair
+### drbd_pair
 
-Given a filesystem and a partner host, configures block replication between the hosts. The master will claim the primary, format the filesystem and mount the partition. The slave will simply mirror without mounting. **It currently takes 2 chef-client runs to ensure the pair is synced properly.**
+Renders pair configuration and keeps the stateful replication steps explicit.
 
-## Attributes
+```ruby
+drbd_pair 'pair' do
+  local_ip '192.0.2.10'
+  remote_host 'node-b'
+  remote_ip '192.0.2.11'
+  disk '/dev/sdb1'
+  mount_point '/srv/drbd'
+  primary true
+  action %i(configure initialize promote format mount)
+end
+```
 
-The required attributes are
+This replaces the old `configured` node flag with runtime checks against DRBD and the block device. Initial convergence may still be multi-step on real hardware, but the resource no longer relies on persisted node state to reach the mount step.
 
-- `node['drbd']['remote_host']` - Remote host to pair with.
-- `node['drbd']['remote_ip']` - Remote host to pair with.
-- `node['drbd']['local_ip']` - Remote host to pair with.
-- `node['drbd']['disk']` - Disk partition to mirror.
-- `node['drbd']['mount']` - Mount point to mirror.
-- `node['drbd']['fs_type']` - Disk format for the mirrored disk, defaults to `ext3`.
-- `node['drbd']['master']` - Whether this node is master between the pair, defaults to `false`.
+## Legacy Recipe Attributes
 
-The optional attributes are
+The compatibility recipes still map the historical attributes into the new resources. The required attributes are:
 
-- `node['drbd']['packages']` - What packages are needed to install drbd, defaults to `drbd_packages` helper.
+* `node['drbd']['remote_host']` - Remote host to pair with.
+* `node['drbd']['remote_ip']` - Remote host to pair with.
+* `node['drbd']['local_ip']` - Remote host to pair with.
+* `node['drbd']['disk']` - Disk partition to mirror.
+* `node['drbd']['mount']` - Mount point to mirror.
+* `node['drbd']['fs_type']` - Disk format for the mirrored disk, defaults to `ext3`.
+* `node['drbd']['master']` - Whether this node is master between the pair, defaults to `false`.
+
+The optional attributes are:
+
+* `node['drbd']['packages']` - Optional explicit package override for the compatibility recipes. When unset, the custom resource resolves platform-specific defaults.
 
 ## Roles
 

@@ -1,0 +1,7 @@
+---
+name: default
+title: Default
+maintainer: Sous Chefs
+license: Apache-2.0
+summary: Default integration tests for the drbd cookbook
+version: 1.0.0
