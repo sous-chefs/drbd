@@ -3,6 +3,8 @@
 provides :drbd_install
 unified_mode true
 
+include Drbd::Cookbook::Helpers
+
 property :instance_name, String, name_property: true
 property :packages, [String, Array],
          coerce: proc { |value| Array(value) },
@@ -21,7 +23,7 @@ action :create do
           "ELRepo does not publish EL9 DRBD packages for #{kernel_machine || 'unknown'}; use x86_64 or disable repository management and override the package list."
   end
 
-  run_context.include_recipe('yum-elrepo::default') if new_resource.manage_repository
+  yum_elrepo 'default' if new_resource.manage_repository
 
   package new_resource.packages
 end

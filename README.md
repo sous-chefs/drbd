@@ -13,9 +13,9 @@ This cookbook now exposes a resource-first API for the core DRBD workflow:
 * `drbd_install` installs the DRBD packages
 * `drbd_pair` renders pair configuration and exposes initialization, promotion, formatting, and mounting as explicit actions
 
-The legacy `drbd::default` and `drbd::pair` recipes remain as compatibility wrappers in this incremental modernization slice.
+This major release removes the legacy `drbd::default` and `drbd::pair` recipes and the `node['drbd']` attribute API. See [migration.md](migration.md) before upgrading from a recipe-based release.
 
-The `drbd` cookbook does not partition drives. It will format partitions given a filesystem type, but it does not explicitly depend on the `xfs` cookbook if you want that type of filesystem, but you can put it in your run list and set the node['drbd']['fs_type'] to 'xfs' or 'ext4' or whatever.
+The `drbd` cookbook does not partition drives. It will format partitions given a filesystem type, but it does not explicitly depend on the `xfs` cookbook if you want that type of filesystem. Install any filesystem tooling you need in your wrapper cookbook, then set the `fs_type` property on `drbd_pair`.
 
 ## Maintainers
 
@@ -43,9 +43,14 @@ This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of
 
 Current x86_64 Kitchen verification in this migration branch covers AlmaLinux 9, Debian 12, and Ubuntu 24.04. On EL9 x86_64, the cookbook installs `drbd9x-utils` and `kmod-drbd9x` from ELRepo. RHEL support remains declared through the same ELRepo path, and ChefSpec covers that package-selection flow explicitly. EL9 `aarch64` and Amazon Linux 2023 remain outside the verified matrix for this release line.
 
-## Recipes
+## Resources
 
-### drbd_install
+Resource documentation:
+
+* [drbd_install](documentation/drbd_drbd_install.md)
+* [drbd_pair](documentation/drbd_drbd_pair.md)
+
+### `drbd_install`
 
 Installs DRBD packages. On the RHEL path it bootstraps `yum-elrepo` by default. EL9 x86_64 installs `drbd9x-utils` and `kmod-drbd9x`; older EL releases continue using `drbd-utils` and `kmod-drbd`.
 
@@ -53,7 +58,7 @@ Installs DRBD packages. On the RHEL path it bootstraps `yum-elrepo` by default. 
 drbd_install 'default'
 ```
 
-### drbd_pair
+### `drbd_pair`
 
 Renders pair configuration and keeps the stateful replication steps explicit.
 
@@ -70,26 +75,6 @@ end
 ```
 
 This replaces the old `configured` node flag with runtime checks against DRBD and the block device. Initial convergence may still be multi-step on real hardware, but the resource no longer relies on persisted node state to reach the mount step.
-
-## Legacy Recipe Attributes
-
-The compatibility recipes still map the historical attributes into the new resources. The required attributes are:
-
-* `node['drbd']['remote_host']` - Remote host to pair with.
-* `node['drbd']['remote_ip']` - Remote host to pair with.
-* `node['drbd']['local_ip']` - Remote host to pair with.
-* `node['drbd']['disk']` - Disk partition to mirror.
-* `node['drbd']['mount']` - Mount point to mirror.
-* `node['drbd']['fs_type']` - Disk format for the mirrored disk, defaults to `ext3`.
-* `node['drbd']['master']` - Whether this node is master between the pair, defaults to `false`.
-
-The optional attributes are:
-
-* `node['drbd']['packages']` - Optional explicit package override for the compatibility recipes. When unset, the custom resource resolves platform-specific defaults.
-
-## Roles
-
-There are a pair of example roles `drbd-pair.rb` and `drbd-pair-master.rb` with the cookbook source.
 
 ## Contributors
 

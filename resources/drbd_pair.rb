@@ -3,6 +3,8 @@
 provides :drbd_pair
 unified_mode true
 
+include Drbd::Cookbook::Helpers
+
 property :local_host, String, default: lazy { local_drbd_host }
 property :local_ip, String, required: true
 property :remote_host, String, required: true
