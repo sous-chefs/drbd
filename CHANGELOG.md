@@ -2,6 +2,17 @@
 
 This file is used to list changes made in each version of the drbd cookbook.
 
+## [6.0.0](https://github.com/sous-chefs/drbd/compare/v5.0.0...v6.0.0) (2026-05-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* migrate drbd to custom resources ([#53](https://github.com/sous-chefs/drbd/issues/53))
+
+### Features
+
+* migrate drbd to custom resources ([#53](https://github.com/sous-chefs/drbd/issues/53)) ([2d5e502](https://github.com/sous-chefs/drbd/commit/2d5e502c7b52b4c89f08f0322635c1eaacad5835))
+
 ## [5.0.0](https://github.com/sous-chefs/drbd/compare/v4.0.0...v5.0.0) (2026-04-22)
 
 
