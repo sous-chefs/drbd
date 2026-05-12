@@ -35,6 +35,3 @@ module Drbd
     end
   end
 end
-
-Chef::DSL::Recipe.include(::Drbd::Cookbook::Helpers)
-Chef::Resource.include(::Drbd::Cookbook::Helpers)

@@ -88,5 +88,5 @@ Additional constraints:
 * The current Kitchen matrix does not exercise a subscribed RHEL image, so RHEL support is covered by metadata and unit tests rather than Dokken integration runs.
 * EL9 `aarch64` is not part of the verified support matrix because ELRepo's current public EL9 `aarch64` repo metadata does not publish DRBD packages.
 * Amazon Linux 2023 is not part of the verified support matrix for the current migration branch.
-* The legacy pairing flow depends on implicit node state (`configured`) and documented multi-run convergence.
+* The removed legacy pairing flow depended on implicit node state (`configured`) and documented multi-run convergence.
 * A single-node Kitchen suite can verify installation and resource compilation, but it cannot fully prove two-node DRBD replication semantics.

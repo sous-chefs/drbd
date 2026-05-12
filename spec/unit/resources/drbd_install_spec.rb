@@ -41,6 +41,18 @@ describe 'drbd_install' do
     it { is_expected.to install_package(%w(drbd9x-utils kmod-drbd9x)) }
   end
 
+  context 'on almalinux 9 x86_64 with repository management' do
+    platform 'almalinux', '9'
+    automatic_attributes['kernel']['machine'] = 'x86_64'
+
+    recipe do
+      drbd_install 'default'
+    end
+
+    it { is_expected.to create_yum_elrepo('default') }
+    it { is_expected.to install_package(%w(drbd9x-utils kmod-drbd9x)) }
+  end
+
   context 'on almalinux 9 aarch64 with repository management' do
     platform 'almalinux', '9'
     automatic_attributes['kernel']['machine'] = 'aarch64'
